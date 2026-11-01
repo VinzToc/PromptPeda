@@ -1,0 +1,409 @@
+<!DOCTYPE html>
+<html lang="fr"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Prompts pédagogiques – Mes Apps EPS</title>
+<link rel="manifest" href="manifest.webmanifest"><meta name="theme-color" content="#14151a">
+<link rel="icon" href="icons/icon-192.png"><link rel="apple-touch-icon" href="icons/icon-192.png">
+<meta name="apple-mobile-web-app-capable" content="yes"><meta name="mobile-web-app-capable" content="yes">
+<style>
+:root{--ink:#1b2a49;--blue:#0040d0;--blue2:#1f8bff;--orange:#ff5e00;--orange2:#ffa21f;--line:#0b4fd033;--ok:#1a8a3a;--ko:#c0392b}
+*{box-sizing:border-box}
+[hidden]{display:none!important}
+body{margin:0;font-family:system-ui,-apple-system,"Segoe UI",sans-serif;color:var(--ink);background:#14151a;line-height:1.5;min-height:100vh;padding-bottom:40px}
+header{display:flex;align-items:center;gap:14px;padding:16px 18px;max-width:1000px;margin:auto;flex-wrap:wrap}
+header img{width:58px;height:58px;border-radius:14px;filter:drop-shadow(0 4px 8px #0005)}
+header .tt{flex:1;min-width:200px}
+h1{margin:0;font-size:1.55rem;color:#fff;text-shadow:0 2px 6px #0007;line-height:1.15}
+header p{margin:3px 0 0;font-size:.85rem;font-weight:600;color:#c9ccd6}
+.hbtn{display:inline-block;color:#fff;font-weight:800;text-decoration:none;border:0;cursor:pointer;font-size:.88rem;padding:9px 14px;border-radius:14px;background:linear-gradient(var(--orange2),var(--orange));box-shadow:0 5px 12px #ff5e0066,inset 0 2px 0 #fff6}
+.vbadge{font-size:.75rem;font-weight:800;color:#c9ccd6;border:1px solid #ffffff33;border-radius:99px;padding:3px 10px}
+main{max-width:1000px;margin:auto;padding:0 16px}
+.card{background:#fff;border:3px solid #fff;border-radius:22px;padding:20px;margin-bottom:18px;box-shadow:0 10px 30px #1b2a4922}
+.card>h2{margin:0 0 4px;font-size:1.15rem;display:flex;align-items:center;gap:10px}
+.num{flex:none;width:32px;height:32px;border-radius:10px;display:inline-flex;align-items:center;justify-content:center;color:#fff;font-weight:800;font-size:.95rem;background:linear-gradient(var(--blue2),var(--blue));box-shadow:inset 0 2px 0 #fff6}
+.hint{margin:0 0 12px;font-size:.84rem;color:#4a5778}
+label{display:block;font-weight:700;font-size:.9rem;margin:10px 0 5px}
+.fld{display:flex;gap:10px;align-items:flex-start}
+.fld>:first-child{flex:1;min-width:0}
+input[type=text],textarea,select{width:100%;padding:11px 12px;border-radius:12px;border:2px solid var(--line);font:inherit;font-size:.95rem;background:#fff;color:var(--ink)}
+textarea{min-height:110px;resize:vertical}
+input:focus,textarea:focus,select:focus{outline:none;border-color:var(--blue);box-shadow:0 0 0 4px #0040d01a}
+.cp{flex:none;border:0;border-radius:12px;padding:0 14px;height:44px;font-weight:700;font-size:.85rem;color:#fff;cursor:pointer;white-space:nowrap;background:linear-gradient(var(--orange2),var(--orange));box-shadow:0 4px 10px #ff5e0055,inset 0 2px 0 #fff6}
+.cp.done{background:linear-gradient(#3fbf6a,#1a8a3a)}
+.btn{border:0;border-radius:14px;padding:12px 18px;font-weight:800;font-size:.95rem;color:#fff;cursor:pointer;background:linear-gradient(var(--blue2),var(--blue));box-shadow:0 5px 12px #0040d066,inset 0 2px 0 #fff6}
+.btn.o{background:linear-gradient(var(--orange2),var(--orange));box-shadow:0 5px 12px #ff5e0066,inset 0 2px 0 #fff6}
+.btn.g{background:linear-gradient(#9aa4b5,#6b7587);box-shadow:0 5px 12px #0003,inset 0 2px 0 #fff6}
+.btn.r{background:linear-gradient(#ff4d4d,#c00000);box-shadow:0 5px 12px #c0000055,inset 0 2px 0 #fff6}
+.btn:active,.cp:active{transform:scale(.97)}
+.btn:disabled{opacity:.5;cursor:not-allowed}
+.row{display:flex;gap:10px;flex-wrap:wrap;align-items:center;margin-top:12px}
+.tpl{display:flex;gap:8px;flex-wrap:wrap;margin-top:10px}
+.tpl button{border:2px solid var(--line);background:#eef3ff;color:var(--blue);font-weight:700;border-radius:12px;padding:8px 12px;cursor:pointer;font-size:.85rem}
+.tpl button:hover{background:#dce8ff}
+.drop{display:flex;flex-direction:column;align-items:center;gap:8px;border:3px dashed var(--blue);border-radius:18px;padding:18px;text-align:center;cursor:pointer;background:#e3eeff;font-weight:600;transition:.2s}
+.drop.on{background:#d0e2ff;transform:scale(1.01)}
+.drop small{font-weight:500;color:#4a5778}
+.msg{margin-top:10px;font-weight:700;font-size:.9rem;word-break:break-word}.msg.ok{color:var(--ok)}.msg.ko{color:var(--ko)}.msg.wait{color:var(--blue)}
+.opts{display:grid;gap:8px}
+.opt{display:flex;gap:10px;align-items:flex-start;font-weight:500;margin:0;padding:10px 12px;border:2px solid var(--line);border-radius:12px;cursor:pointer;font-size:.9rem}
+.opt input{margin-top:3px;width:18px;height:18px;flex:none;accent-color:var(--blue)}
+.opt b{display:block;font-size:.9rem}
+.prev{white-space:pre-wrap;word-break:break-word;font:.85rem/1.6 ui-monospace,Menlo,Consolas,monospace;background:#f3f6ff;border:2px solid var(--line);border-radius:14px;padding:14px;max-height:420px;overflow:auto}
+.cnt{font-size:.8rem;font-weight:700;color:#4a5778;margin-top:6px}
+.actions{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:12px}
+.actions .btn{padding:16px;font-size:1rem}
+.kv{display:grid;grid-template-columns:auto 1fr;gap:4px 14px;font-size:.9rem;margin:10px 0}.kv b{color:#4a5778}
+.sel2{display:flex;gap:10px;flex-wrap:wrap;align-items:center;margin-top:10px}.sel2 select{width:auto;min-width:200px;flex:1}
+.rgpd{font-size:.84rem;line-height:1.6;background:#fff6ee;border-left:5px solid var(--orange);border-radius:12px;padding:14px 16px}
+.rgpd ul{margin:6px 0 0;padding-left:20px}
+.rgpd a{color:var(--blue);font-weight:700}
+.foot{max-width:1000px;margin:6px auto 0;text-align:center;font-size:.8rem;font-weight:700;color:#c9ccd6;padding:0 16px}
+.toast{position:fixed;left:50%;bottom:22px;transform:translateX(-50%) translateY(30px);opacity:0;background:#1b2a49;color:#fff;font-weight:700;padding:11px 20px;border-radius:14px;box-shadow:0 10px 30px #0006;transition:.3s;z-index:50;pointer-events:none;max-width:90vw;text-align:center}
+.toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
+@media(max-width:640px){.fld{flex-direction:column}.fld .cp{width:100%}h1{font-size:1.3rem}}
+@media(prefers-reduced-motion:reduce){*{transition:none!important}}
+</style></head><body>
+
+<header>
+ <img src="icons/logo.png" alt="" width="58" height="58">
+ <div class="tt"><h1>Prompts pédagogiques</h1><p>Structurez votre prompt pour Claude AI · <span class="vbadge">v<span class="ver"></span></span></p></div>
+ <button class="hbtn" id="inst" hidden>📲 Installer</button>
+ <a class="hbtn" href="../Mes_Apps_EPS/">← Mes Apps EPS</a>
+</header>
+
+<main>
+<div class="card">
+ <h2>📝 Votre projet</h2>
+ <p class="hint">Ces deux informations sont facultatives. Le titre sert à nommer les fichiers exportés et à garder une trace dans Mes Apps EPS.</p>
+ <label for="titre">Titre de l'application</label>
+ <div class="fld"><input type="text" id="titre" placeholder="Ex : Quiz d'endurance – 5e"><button class="cp" data-copy="titre">📋 Copier</button></div>
+ <label for="discipline">Discipline / thème</label>
+ <div class="fld"><input type="text" id="discipline" placeholder="Ex : EPS – demi-fond, mathématiques – fractions…"><button class="cp" data-copy="discipline">📋 Copier</button></div>
+</div>
+
+<div class="card"><h2><span class="num">1</span> Identité de l'IA</h2>
+ <p class="hint">Le rôle que Claude doit endosser pour réaliser l'application.</p>
+ <div class="fld"><textarea id="identite" style="min-height:70px" aria-label="Identité de l'IA" placeholder="Ex : Tu es un expert du codage web spécialisé dans la création d'applications éducatives pour l'EPS."></textarea><button class="cp" data-copy="identite">📋 Copier</button></div>
+</div>
+
+<div class="card"><h2><span class="num">2</span> Contexte : public visé</h2>
+ <p class="hint">Le niveau permet d'adapter le vocabulaire, la difficulté et l'interface.</p>
+ <div class="fld"><select id="contexte" aria-label="Public visé">
+  <option value="">— Choisir un niveau —</option>
+  <optgroup label="Primaire"><option>Maternelle (PS, MS, GS)</option><option>CP</option><option>CE1</option><option>CE2</option><option>CM1</option><option>CM2</option></optgroup>
+  <optgroup label="Collège"><option>6e (collège)</option><option>5e (collège)</option><option>4e (collège)</option><option>3e (collège)</option></optgroup>
+  <optgroup label="Lycée"><option>2de générale et technologique</option><option>2de professionnelle</option><option>1re (lycée)</option><option>Terminale (lycée)</option><option>CAP</option><option>Bac Pro</option></optgroup>
+  <optgroup label="Après le bac"><option>BTS / BUT</option><option>Licence / Université</option></optgroup>
+  <optgroup label="Autres"><option>Classes multi-niveaux</option><option>Enseignants (usage professionnel)</option></optgroup>
+ </select><button class="cp" data-copy="contexte">📋 Copier</button></div>
+</div>
+
+<div class="card"><h2><span class="num">3</span> Objectif principal</h2>
+ <p class="hint">À quoi va servir l'application ? Quelles compétences vise-t-elle ?</p>
+ <div class="fld"><textarea id="objectif" aria-label="Objectif principal" placeholder="Ex : Permettre aux élèves de s'entraîner au calcul de leur VMA avec correction immédiate et suivi de leurs progrès."></textarea><button class="cp" data-copy="objectif">📋 Copier</button></div>
+ <div class="tpl" aria-label="Modèles prêts à l'emploi"><span style="font-size:.85rem;font-weight:700;align-self:center">Modèles :</span>
+  <button data-tpl="quiz">📝 Quiz</button><button data-tpl="exercices">✍️ Exercices</button><button data-tpl="evaluation">📊 Évaluation</button><button data-tpl="revision">🔄 Révisions</button><button data-tpl="eps">🏃 Suivi de séance EPS</button></div>
+</div>
+
+<div class="card"><h2><span class="num">4</span> Structure</h2>
+ <p class="hint">Organisation des pages, onglets et zones de l'application, avec leur type.</p>
+ <div class="fld"><textarea id="structure" aria-label="Structure" placeholder="Ex : 3 onglets : Accueil (choix du niveau), Exercice (questions + bouton Valider), Résultats (score + corrections)."></textarea><button class="cp" data-copy="structure">📋 Copier</button></div>
+</div>
+
+<div class="card"><h2><span class="num">5</span> Contenu et actions</h2>
+ <p class="hint">Le détail de chaque zone, les actions attendues et les éléments à intégrer.</p>
+ <div class="fld"><textarea id="contenu" style="min-height:140px" aria-label="Contenu et actions" placeholder="Ex : - Zone question…&#10;- Champ de réponse…&#10;- Bouton Valider (vert = juste, rouge = erreur)…"></textarea><button class="cp" data-copy="contenu">📋 Copier</button></div>
+</div>
+
+<div class="card"><h2><span class="num">6</span> Format de sortie</h2>
+ <p class="hint">Le format numérique attendu pour l'application.</p>
+ <div class="fld"><select id="format" aria-label="Format de sortie">
+  <option value="">— Choisir un format —</option>
+  <option value="Application web HTML : un seul fichier index.html autonome (HTML, CSS et JavaScript intégrés)">Application web HTML (un seul fichier)</option>
+  <option value="Application web installable (PWA) : index.html, manifest.webmanifest, sw.js (service worker) et icônes, fonctionnant hors ligne">PWA installable hors ligne (HTML + manifest + service worker)</option>
+  <option value="Application React (JSX) en un seul composant">React (JSX)</option>
+  <option value="Document Markdown (.md)">Document Markdown</option>
+ </select><button class="cp" data-copy="format">📋 Copier</button></div>
+</div>
+
+<div class="card"><h2><span class="num">7</span> Document de référence et base de données</h2>
+ <p class="hint">Un lien (Google Sheets, fichier support…) et/ou un document d'exercice ou de sujet que Claude doit exploiter.</p>
+ <label for="reference">Lien vers un document ou un classeur (facultatif)</label>
+ <div class="fld"><input type="text" id="reference" inputmode="url" placeholder="https://docs.google.com/spreadsheets/d/…"><button class="cp" data-copy="reference">📋 Copier</button></div>
+
+ <label style="margin-top:18px">Importer un exercice ou un sujet</label>
+ <label class="drop" id="drop"><span>📎 Glissez un document ici</span><span class="btn">📂 Choisir un fichier</span>
+  <small>Word (.docx) · PDF · Excel (.xlsx) · PowerPoint (.pptx) · OpenDocument · Pages · RTF · HTML · texte (.txt, .md, .csv)</small>
+  <input id="file" type="file" hidden></label>
+ <div id="docMsg" class="msg" role="status"></div>
+ <label for="docUsage">Que doit faire Claude de ce document ?</label>
+ <div class="fld"><select id="docUsage">
+  <option value="">— Aucune consigne particulière —</option>
+  <option>Transformer ce sujet en exercices interactifs avec correction automatique</option>
+  <option>Générer des variantes d'exercices du même type et de même difficulté</option>
+  <option>Créer un quiz à choix multiples à partir de son contenu</option>
+  <option>Utiliser ce document comme barème et corrigé de référence</option>
+  <option>Utiliser ce document uniquement comme source d'informations (cours, règlement, fiche)</option>
+ </select><button class="cp" data-copy="docUsage">📋 Copier</button></div>
+ <label for="docText">Texte extrait (modifiable : supprimez ce qui est inutile)</label>
+ <div class="fld"><textarea id="docText" style="min-height:160px" placeholder="Le texte du document importé apparaît ici. Vous pouvez aussi le coller directement."></textarea><button class="cp" data-copy="docText">📋 Copier</button></div>
+ <div class="row" style="margin-top:8px"><button class="btn g" id="docClear">🧹 Retirer le document</button><span class="cnt" id="docCnt"></span></div>
+ <p class="hint" style="margin:10px 0 0">🔒 Le document est lu <b>dans votre navigateur</b> : il n'est envoyé à aucun serveur. Évitez les documents contenant des noms d'élèves.</p>
+</div>
+
+<div class="card"><h2><span class="num">8</span> Publication en ligne</h2>
+ <p class="hint">Où l'application sera-t-elle hébergée, si nécessaire ?</p>
+ <div class="fld"><select id="publication" aria-label="Support de publication">
+  <option value="">— Pas de publication —</option><option>GitHub Pages</option><option>Netlify</option><option>Vercel</option><option>Cloudflare Pages</option><option>GitLab Pages</option><option>ENT / intranet de l'établissement</option><option>CodePen</option>
+ </select><button class="cp" data-copy="publication">📋 Copier</button></div>
+</div>
+
+<div class="card"><h2><span class="num">9</span> Exigences techniques et consignes</h2>
+ <p class="hint">Cochez ce que l'application doit intégrer. Chaque case ajoute une phrase prête à l'emploi au prompt.</p>
+ <div class="opts" id="opts"></div>
+ <div class="row"><button class="cp" data-copy="opts">📋 Copier cette liste</button></div>
+</div>
+
+<div class="card"><h2>👁️ Prévisualisation du prompt complet</h2>
+ <div class="prev" id="prev" aria-live="polite"></div><div class="cnt" id="prevCnt"></div>
+</div>
+
+<div class="card"><h2>⬇️ Copier et exporter</h2>
+ <p class="hint">Les exports sont enregistrés sur votre appareil (dossier Téléchargements).</p>
+ <div class="actions">
+  <button class="btn" id="copyAll">📋 Copier le prompt complet</button>
+  <button class="btn o" id="expTxt">📄 Exporter en .txt</button>
+  <button class="btn o" id="expPdf">📕 Exporter en .pdf</button>
+  <button class="btn g" id="reset">♻️ Nouveau prompt</button>
+ </div>
+</div>
+
+<div class="card"><h2>🔗 Liaison avec Mes Apps EPS</h2>
+ <p class="hint">Cette application partage la base d'élèves locale du portail (même navigateur, même domaine). Elle y ajoute sa propre feuille « <span class="appid"></span> » : quel prompt/activité a été préparé pour quelle classe.</p>
+ <div class="kv"><b>Base élèves</b><span id="epsInfo">…</span></div>
+ <div class="row">
+  <label class="btn" style="margin:0">📥 Récupérer les élèves (.xlsx / .csv du portail)<input id="epsFile" type="file" accept=".xlsx,.csv,text/csv" hidden></label>
+ </div>
+ <div class="sel2"><select id="epsClasse" aria-label="Classe"><option value="">— Classe —</option></select>
+  <button class="btn" id="epsAssoc">🏷️ Associer ce prompt à la classe</button></div>
+ <div class="row"><button class="btn o" id="epsExp">⬆️ Exporter la base .xlsx pour le portail</button></div>
+ <div id="epsMsg" class="msg" role="status"></div>
+ <p class="hint" style="margin:8px 0 0">Le fichier exporté contient la feuille « Élèves » et une feuille par application. Importez-le dans Mes Apps EPS (onglet Accueil) pour mettre à jour la liste globale.</p>
+</div>
+
+<div class="card"><h2>🗂️ Mes données et version</h2>
+ <div class="kv"><b>Version</b><span>v<span class="ver"></span></span><b>Stockage</b><span>Navigateur de cet appareil uniquement</span></div>
+ <div class="row"><button class="btn r" id="delAll">🗑️ Supprimer mes données</button></div>
+ <p class="hint" style="margin:8px 0 0">Supprime le brouillon, le document importé et les lignes ajoutées par cette application aux élèves du portail. La liste d'élèves du portail et les autres applications ne sont pas touchées.</p>
+</div>
+
+<div class="card"><div class="rgpd"><b>⚖️ RGPD – protection des données</b><br>
+ Cette application fonctionne <b>sans compte, sans serveur de données, sans cookie ni outil de suivi</b>. Tout est traité dans votre navigateur ; les documents importés ne quittent pas votre appareil.
+ <ul>
+  <li>N'importez pas de document comportant des données personnelles d'élèves (noms, notes, appréciations) et n'en saisissez pas dans le prompt envoyé à Claude.</li>
+  <li>Les applications que vous créerez avec ce prompt doivent elles aussi respecter le RGPD : minimisation des données, information des élèves et des familles, consentement parental avant 15 ans, droit d'accès et de suppression, pas de transfert hors UE sans garanties.</li>
+  <li>Les fichiers exportés (.txt, .pdf, .xlsx) relèvent de votre responsabilité une fois enregistrés : stockez-les de façon sécurisée.</li>
+  <li>Hébergement des fichiers de l'application : GitHub Pages (l'hébergeur peut journaliser l'adresse IP, sans aucune donnée d'élève).</li>
+ </ul>
+ Pour en savoir plus : <a href="https://www.cnil.fr/fr/enseignement-scolaire" target="_blank" rel="noopener noreferrer">CNIL – enseignement scolaire</a> · <a href="../Mes_Apps_EPS/confidentialite.html">Politique de confidentialité de Mes Apps EPS</a>
+</div></div>
+</main>
+<p class="foot">Prompts pédagogiques · version <span class="ver"></span> · données stockées uniquement sur cet appareil</p>
+<div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+<script src="version.js"></script>
+<script src="lib/jszip.min.js"></script>
+<script src="lib/pdf.min.js"></script>
+<script src="lib/jspdf.umd.min.js"></script>
+<script src="eps-core.js"></script>
+<script src="docimport.js"></script>
+<script>
+"use strict";
+const APP_ID="prompt_pedago",LS="prompt_pedago:draft";
+const $=s=>document.querySelector(s);
+const FIELDS=["titre","discipline","identite","contexte","objectif","structure","contenu","format","reference","docUsage","docText","publication"];
+const OPTS=[
+ {id:"ask",on:1,t:"Poser des questions avant de coder",x:"Si une information manque ou est ambiguë, me poser au maximum 3 questions avant de générer l'application."},
+ {id:"pwa",t:"Application installable (PWA)",x:"L'application doit être une PWA installable et fonctionner hors ligne (manifest.webmanifest, service worker, icônes 192 et 512 px, chemins relatifs)."},
+ {id:"eps",t:"Intégration à Mes Apps EPS",x:"L'application s'intègre au portail Mes Apps EPS : inclure le fichier eps-core.js fourni ; un bouton récupère la liste d'élèves de la base locale partagée (ou d'un fichier .xlsx du portail) ; un autre bouton exporte les données saisies au format .xlsx dans une feuille portant le nom de l'application, avec Nom, Prénom, Classe comme colonnes communes."},
+ {id:"imp",t:"Import de documents",x:"Permettre d'importer un document (.docx, .pdf, .xlsx, .odt, .pptx, .txt…) dont le texte est extrait localement dans le navigateur."},
+ {id:"exp",t:"Export local .txt / .pdf",x:"Permettre l'export local des résultats au format texte (.txt) et PDF, téléchargés sur l'appareil."},
+ {id:"ver",on:1,t:"Affichage de la version",x:"Afficher le numéro de version de l'application (défini dans un seul fichier version.js)."},
+ {id:"del",on:1,t:"Bouton de suppression des données",x:"Prévoir un bouton de suppression des données locales de l'application, avec confirmation."},
+ {id:"a11y",on:1,t:"Responsive et accessible",x:"Interface responsive (smartphone, tablette, ordinateur), lisible, avec des contrastes suffisants et des éléments tactiles assez grands."}
+];
+const RGPD="L'application doit respecter le RGPD français : aucune donnée personnelle envoyée à un serveur, traitement local dans le navigateur, collecte minimale, pas de cookie ni de suivi tiers, droit de suppression des données, et une mention RGPD visible en bas de page.";
+const TPL={
+ quiz:{objectif:"Permettre aux élèves de tester leurs connaissances avec un quiz à choix multiples, un score en temps réel et une explication pour chaque réponse.",structure:"1. Accueil : titre et bouton Démarrer.\n2. Quiz : une question à la fois, 4 réponses possibles, bouton Valider.\n3. Résultats : score, pourcentage de réussite, bouton Recommencer.",contenu:"- Questions mélangées aléatoirement\n- 4 boutons de réponse par question\n- Retour immédiat : vert = juste, rouge = erreur, avec explication\n- Compteur de questions restantes\n- Message final adapté au score"},
+ exercices:{objectif:"Proposer des exercices progressifs avec correction automatique et feedback pédagogique pour consolider une compétence.",structure:"1. Menu : choix du niveau (facile, moyen, difficile).\n2. Exercice : énoncé, zone de réponse, bouton Vérifier, bouton Indice.\n3. Bilan : progression et statistiques.",contenu:"- Énoncés clairs adaptés au niveau\n- Zone de saisie (texte ou nombre)\n- Vérification instantanée avec feedback selon le type d'erreur\n- Indices progressifs\n- Étoiles ou badges de progression\n- Historique des exercices réalisés"},
+ evaluation:{objectif:"Évaluer les compétences des élèves avec une notation automatique, un bilan par compétence et un export des résultats pour l'enseignant.",structure:"1. Identification de l'élève (prénom et classe uniquement).\n2. Série de questions (QCM, textes à trous, réponses courtes).\n3. Résultats : note détaillée par compétence.\n4. Espace enseignant : tableau des résultats de la classe.",contenu:"- Questions variées couvrant plusieurs compétences\n- Barème personnalisable\n- Bilan par compétence avec recommandations\n- Export des résultats (.xlsx)\n- Aucune donnée envoyée sur un serveur"},
+ revision:{objectif:"Aider les élèves à réviser avec des fiches interactives, des cartes mémoire et une répétition espacée selon leurs réussites.",structure:"1. Accueil : choix du chapitre.\n2. Fiches de révision synthétiques.\n3. Cartes mémoire (question / réponse).\n4. Bilan de mémorisation par thème.",contenu:"- Fiches courtes avec schémas et exemples\n- Cartes retournables au clic\n- Boutons « Acquis » / « À revoir »\n- Les cartes mal maîtrisées reviennent plus souvent\n- Quiz récapitulatif en fin de session"},
+ eps:{objectif:"Aider l'enseignant d'EPS et les élèves à suivre une séance : saisie des performances, comparaison avec les séances précédentes et visualisation des progrès.",structure:"1. Accueil : choix de la classe et de l'activité.\n2. Saisie : tableau des élèves avec champs de performance.\n3. Suivi : graphique de progression par élève.\n4. Export : fichier .xlsx pour Mes Apps EPS.",contenu:"- Liste d'élèves récupérée de Mes Apps EPS\n- Saisie rapide au chronomètre ou au clavier, utilisable sur tablette au gymnase\n- Calculs automatiques (vitesse, VMA, score…)\n- Graphiques simples de progression\n- Export .xlsx : une ligne par élève et par séance"}
+};
+
+/* ---------- utilitaires ---------- */
+function toast(m){const t=$("#toast");t.textContent=m;t.classList.add("show");clearTimeout(toast._t);toast._t=setTimeout(()=>t.classList.remove("show"),2600)}
+function msg(sel,cls,txt){const e=$(sel);e.className="msg "+cls;e.textContent=txt}
+const todayISO=()=>{const d=new Date();return d.getFullYear()+"-"+String(d.getMonth()+1).padStart(2,"0")+"-"+String(d.getDate()).padStart(2,"0")};
+const slug=s=>(s||"").normalize("NFD").replace(/[̀-ͯ]/g,"").toLowerCase().replace(/[^a-z0-9]+/g,"-").replace(/^-+|-+$/g,"").slice(0,40);
+const fileBase=()=>(slug($("#titre").value)||"prompt-pedagogique")+"_"+todayISO();
+function download(blob,name){const a=document.createElement("a");a.href=URL.createObjectURL(blob);a.download=name;document.body.appendChild(a);a.click();setTimeout(()=>{URL.revokeObjectURL(a.href);a.remove()},1500)}
+async function copyText(t){
+ try{await navigator.clipboard.writeText(t);return true}catch(e){}
+ try{const a=document.createElement("textarea");a.value=t;a.style.cssText="position:fixed;opacity:0";document.body.appendChild(a);a.select();const ok=document.execCommand("copy");a.remove();return ok}catch(e){return false}}
+
+/* ---------- options techniques ---------- */
+$("#opts").innerHTML=OPTS.map(o=>`<label class="opt"><input type="checkbox" data-opt="${o.id}"${o.on?" checked":""}><span><b>${o.t}</b>${o.x}</span></label>`).join("");
+const optLines=()=>OPTS.filter(o=>$(`[data-opt="${o.id}"]`).checked).map(o=>"- "+o.x).join("\n");
+
+/* ---------- prompt ---------- */
+let docMeta={name:"",format:""};
+function sections(){
+ const v=id=>($("#"+id).value||"").trim(),S=[],add=(t,x)=>{if(x)S.push([t,x])};
+ add("NOM DE L'APPLICATION",v("titre"));
+ add("IDENTITÉ",v("identite"));
+ add("CONTEXTE",[v("contexte")&&"Public visé : "+v("contexte"),v("discipline")&&"Discipline / thème : "+v("discipline")].filter(Boolean).join("\n"));
+ add("OBJECTIF PRINCIPAL",v("objectif"));
+ add("STRUCTURE",v("structure"));
+ add("CONTENU / ACTIONS",v("contenu"));
+ add("FORMAT DE SORTIE ATTENDU",v("format"));
+ add("DOCUMENT DE RÉFÉRENCE (LIEN)",v("reference"));
+ if(v("docText")){
+  const src=docMeta.name?docMeta.name+(docMeta.format?" – "+docMeta.format:""):"texte saisi";
+  add("DOCUMENT SOURCE ("+src+")",(v("docUsage")?"Consigne : "+v("docUsage")+"\n":"")+"Contenu du document :\n\"\"\"\n"+v("docText")+"\n\"\"\"")}
+ else add("DOCUMENT SOURCE",v("docUsage")&&"Consigne : "+v("docUsage"));
+ add("SUPPORT DE PUBLICATION",v("publication"));
+ add("EXIGENCES TECHNIQUES ET CONSIGNES",optLines());
+ if(S.length)S.push(["RGPD",RGPD]);
+ return S}
+const toText=S=>S.map(s=>s[0]+" :\n"+s[1]).join("\n\n");
+const EMPTY="Remplissez les champs ci-dessus : le prompt se construit au fur et à mesure.";
+function update(){
+ const S=sections(),t=S.length?toText(S):EMPTY;
+ $("#prev").textContent=t;
+ $("#prevCnt").textContent=S.length?t.length.toLocaleString("fr-FR")+" caractères · "+t.split(/\s+/).length.toLocaleString("fr-FR")+" mots":"";
+ const n=$("#docText").value.length;
+ $("#docCnt").textContent=n?n.toLocaleString("fr-FR")+" caractères"+(n>30000?" · ⚠ document long : ne gardez que les exercices utiles":""):"";
+ return S}
+
+/* ---------- brouillon local ---------- */
+function save(){try{const d={f:{},o:{},doc:docMeta};FIELDS.forEach(i=>d.f[i]=$("#"+i).value);OPTS.forEach(o=>d.o[o.id]=$(`[data-opt="${o.id}"]`).checked);localStorage.setItem(LS,JSON.stringify(d))}catch(e){}}
+function load(){try{const d=JSON.parse(localStorage.getItem(LS)||"null");if(!d)return;FIELDS.forEach(i=>{if(d.f&&d.f[i]!=null)$("#"+i).value=d.f[i]});OPTS.forEach(o=>{if(d.o&&o.id in d.o)$(`[data-opt="${o.id}"]`).checked=!!d.o[o.id]});docMeta=d.doc||docMeta;if(docMeta.name)msg("#docMsg","ok","📎 "+docMeta.name+(docMeta.format?" ("+docMeta.format+")":""))}catch(e){}}
+let _st;const changed=()=>{update();clearTimeout(_st);_st=setTimeout(save,500)};
+document.addEventListener("input",e=>{if(e.target.closest("main")&&e.target.id!=="file"&&e.target.id!=="epsFile")changed()});
+document.addEventListener("change",e=>{if(e.target.closest("main")&&e.target.id!=="file"&&e.target.id!=="epsFile")changed()});
+
+/* ---------- copie ---------- */
+document.addEventListener("click",async e=>{
+ const tp=e.target.closest("[data-tpl]");
+ if(tp){const t=TPL[tp.dataset.tpl];["objectif","structure","contenu"].forEach(k=>$("#"+k).value=t[k]);changed();toast("Modèle chargé : personnalisez-le");return}
+ const b=e.target.closest("[data-copy]");if(!b)return;
+ const id=b.dataset.copy,txt=(id==="opts"?optLines():$("#"+id).value).trim();
+ if(!txt){toast("Ce champ est vide");return}
+ if(await copyText(txt)){const o=b.textContent;b.textContent="✓ Copié";b.classList.add("done");setTimeout(()=>{b.textContent=o;b.classList.remove("done")},1600)}else toast("Copie impossible : sélectionnez le texte à la main")});
+$("#copyAll").onclick=async()=>{const S=sections();if(!S.length){toast("Rien à copier pour le moment");return}toast(await copyText(toText(S))?"Prompt complet copié ✓":"Copie impossible sur ce navigateur")};
+
+/* ---------- exports locaux ---------- */
+$("#expTxt").onclick=()=>{const S=sections();if(!S.length){toast("Rien à exporter pour le moment");return}
+ download(new Blob(["﻿"+toText(S)+"\n"],{type:"text/plain;charset=utf-8"}),fileBase()+".txt");toast("Fichier .txt enregistré ✓")};
+const PDFMAP={"→":"->","←":"<-","↔":"<->","✓":"v","✔":"v","≥":">=","≤":"<=","≈":"~","≠":"!=","×":"x","\t":"    "};
+const pdfSafe=s=>s.replace(/[  ]/g," ").replace(/[^\n -ÿ‘’“”–—…•€Œœ\t→←↔✓✔≥≤≈≠]/g,"").replace(/[→←↔✓✔≥≤≈≠\t]/g,c=>PDFMAP[c]);
+$("#expPdf").onclick=()=>{
+ const S=sections();if(!S.length){toast("Rien à exporter pour le moment");return}
+ if(!window.jspdf){toast("Module PDF indisponible");return}
+ const doc=new window.jspdf.jsPDF({unit:"mm",format:"a4"}),M=18,W=210-2*M,LH=5;let y=M;
+ const need=h=>{if(y+h>285){doc.addPage();y=M}};
+ const title=$("#titre").value.trim();
+ doc.setProperties({title:"Prompt pédagogique"+(title?" – "+title:"")});
+ doc.setFont("helvetica","bold");doc.setFontSize(17);doc.setTextColor(0,64,208);
+ doc.splitTextToSize(pdfSafe("Prompt pédagogique pour Claude AI"),W).forEach(l=>{doc.text(l,M,y);y+=8});
+ if(title){doc.setFontSize(12);doc.setTextColor(27,42,73);doc.splitTextToSize(pdfSafe(title),W).forEach(l=>{doc.text(l,M,y);y+=6})}
+ doc.setFont("helvetica","normal");doc.setFontSize(9);doc.setTextColor(110,120,140);
+ doc.text(pdfSafe("Généré le "+new Date().toLocaleDateString("fr-FR")+" · Prompts pédagogiques v"+APP_VERSION),M,y);y+=9;
+ S.forEach(([h,body])=>{
+  need(16);doc.setFont("helvetica","bold");doc.setFontSize(11);doc.setTextColor(255,94,0);doc.text(pdfSafe(h),M,y);y+=6;
+  doc.setFont("helvetica","normal");doc.setFontSize(10);doc.setTextColor(27,42,73);
+  pdfSafe(body).split("\n").forEach(p=>{
+   if(!p.trim()){y+=LH*.6;return}
+   doc.splitTextToSize(p,W).forEach(l=>{need(LH);doc.text(l,M,y);y+=LH})});
+  y+=5});
+ const n=doc.getNumberOfPages();
+ for(let i=1;i<=n;i++){doc.setPage(i);doc.setFontSize(8);doc.setTextColor(140,148,165);doc.text("Page "+i+" / "+n,105,291,{align:"center"})}
+ doc.save(fileBase()+".pdf");toast("Fichier .pdf enregistré ✓")};
+
+/* ---------- import d'un document ---------- */
+const fi=$("#file");fi.accept=DocImport.ACCEPT;
+async function importDoc(f){
+ if(!f)return;
+ if($("#docText").value.trim()&&!confirm("Remplacer le texte du document déjà présent ?"))return;
+ msg("#docMsg","wait","⏳ Lecture de « "+f.name+" »…");
+ try{
+  const r=await DocImport.extract(f,(i,n)=>msg("#docMsg","wait","⏳ Lecture du PDF : page "+i+" / "+n));
+  $("#docText").value=r.text;docMeta={name:f.name,format:r.format};
+  msg("#docMsg","ok","✅ "+f.name+" ("+r.format+") : "+r.text.length.toLocaleString("fr-FR")+" caractères extraits."+(r.details.note?" ⚠ "+r.details.note:""));
+  changed()}
+ catch(e){msg("#docMsg","ko","❌ "+(e&&e.message||"Lecture impossible."))}
+ fi.value=""}
+fi.onchange=e=>importDoc(e.target.files[0]);
+const dr=$("#drop");
+dr.ondragover=e=>{e.preventDefault();dr.classList.add("on")};dr.ondragleave=()=>dr.classList.remove("on");
+dr.ondrop=e=>{e.preventDefault();dr.classList.remove("on");importDoc(e.dataTransfer.files[0])};
+$("#docClear").onclick=()=>{$("#docText").value="";$("#docUsage").value="";docMeta={name:"",format:""};msg("#docMsg","","");changed()};
+
+/* ---------- liaison Mes Apps EPS ---------- */
+let eleves=[];
+async function epsRefresh(){
+ try{
+  eleves=await EPS.all();const m=await EPS.meta();
+  const cl=[...new Set(eleves.map(e=>e.classe))].filter(Boolean).sort((a,b)=>a.localeCompare(b,"fr",{numeric:true})),cur=$("#epsClasse").value;
+  $("#epsClasse").innerHTML='<option value="">— Classe —</option>'+cl.map(c=>`<option${c===cur?" selected":""}>${c.replace(/[&<>"]/g,x=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[x]))}</option>`).join("");
+  $("#epsInfo").textContent=eleves.length?eleves.length+" élèves · "+cl.length+" classe(s)"+(m?" · dernier import : "+new Date(m.v).toLocaleString("fr-FR"):""):"Aucun élève : importez le fichier du portail ci-dessous (ou ouvrez d'abord Mes Apps EPS)."
+ }catch(e){$("#epsInfo").textContent="Base locale inaccessible sur ce navigateur."}}
+$("#epsFile").onchange=async e=>{const f=e.target.files[0];if(!f)return;
+ try{const r=await EPS.importFile(f);msg("#epsMsg","ok","✅ "+r.add+" ajouté(s), "+r.upd+" mis à jour.");await epsRefresh()}
+ catch(err){msg("#epsMsg","ko","❌ "+(err&&err.message||"Import impossible."))}
+ e.target.value=""};
+$("#epsAssoc").onclick=async()=>{
+ const cl=$("#epsClasse").value;
+ if(!cl){msg("#epsMsg","ko","Choisissez d'abord une classe.");return}
+ const S=sections();if(!S.length){msg("#epsMsg","ko","Remplissez d'abord le prompt.");return}
+ const v=id=>$("#"+id).value.trim(),rec={Date:todayISO(),Titre:v("titre")||"(sans titre)"};
+ if(v("contexte"))rec.Niveau=v("contexte");if(v("discipline"))rec.Discipline=v("discipline");
+ if(v("format"))rec.Format=v("format").split(":")[0].trim();if(docMeta.name&&v("docText"))rec["Document source"]=docMeta.name;
+ try{
+  const L=eleves.filter(e=>e.classe===cl);
+  for(const e of L){
+   const cur=((e.ext||{})[APP_ID]||{}).lignes,arr=Array.isArray(cur)?cur.slice():[];
+   if(!arr.some(o=>JSON.stringify(o)===JSON.stringify(rec)))arr.push(rec);
+   await EPS.setExt(APP_ID,e.id,{lignes:arr})}
+  msg("#epsMsg","ok","✅ Prompt « "+rec.Titre+" » associé à "+L.length+" élève(s) de "+cl+". Exportez le .xlsx pour le remonter au portail.");await epsRefresh()}
+ catch(err){msg("#epsMsg","ko","❌ "+(err&&err.message||err))}};
+$("#epsExp").onclick=async()=>{
+ try{
+  if(!eleves.length){msg("#epsMsg","ko","Aucun élève dans la base : rien à exporter.");return}
+  download(new Blob([await EPS.exportXLSX()],{type:EPS.XLSX_MIME}),"Mes_Apps_EPS_base.xlsx");msg("#epsMsg","ok","✅ Fichier « Mes_Apps_EPS_base.xlsx » enregistré. Importez-le dans le portail.")}
+ catch(err){msg("#epsMsg","ko","❌ "+(err&&err.message||"Export impossible."))}};
+
+/* ---------- réinitialisation et suppression ---------- */
+function clearForm(){FIELDS.forEach(i=>$("#"+i).value="");OPTS.forEach(o=>$(`[data-opt="${o.id}"]`).checked=!!o.on);docMeta={name:"",format:""};msg("#docMsg","","");update()}
+$("#reset").onclick=()=>{if(confirm("Vider le formulaire et commencer un nouveau prompt ?")){clearForm();save();toast("Formulaire vidé")}};
+$("#delAll").onclick=async()=>{
+ if(!confirm("Supprimer toutes les données de cette application sur cet appareil ?\n\n• le brouillon du prompt et le document importé\n• les lignes « "+APP_ID+" » ajoutées aux élèves du portail\n\nLa liste d'élèves de Mes Apps EPS et les autres applications ne sont pas touchées."))return;
+ try{localStorage.removeItem(LS)}catch(e){}
+ let n=0;
+ try{const d=await EPS.open();await new Promise((ok,ko)=>{const t=d.transaction("eleves","readwrite"),o=t.objectStore("eleves"),g=o.getAll();
+  g.onsuccess=()=>g.result.forEach(e=>{if(e.ext&&e.ext[APP_ID]){delete e.ext[APP_ID];o.put(e);n++}});t.oncomplete=ok;t.onerror=()=>ko(t.error)})}catch(e){}
+ clearForm();msg("#epsMsg","","");await epsRefresh();toast("Données supprimées ✓"+(n?" ("+n+" élève(s) nettoyé(s))":""))};
+
+/* ---------- PWA ---------- */
+let ev;window.addEventListener("beforeinstallprompt",e=>{e.preventDefault();ev=e;$("#inst").hidden=false});
+$("#inst").onclick=async()=>{if(!ev)return;ev.prompt();await ev.userChoice;ev=null;$("#inst").hidden=true};
+window.addEventListener("appinstalled",()=>{$("#inst").hidden=true;toast("Application installée ✓")});
+if("serviceWorker"in navigator&&location.protocol!=="file:")navigator.serviceWorker.register("sw.js").catch(()=>{});
+
+/* ---------- démarrage ---------- */
+document.querySelectorAll(".ver").forEach(e=>e.textContent=APP_VERSION);
+document.querySelectorAll(".appid").forEach(e=>e.textContent=APP_ID);
+load();update();epsRefresh();
+</script>
+</body></html>

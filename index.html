@@ -62,11 +62,20 @@ input:focus,textarea:focus,select:focus{outline:none;border-color:var(--blue);bo
 .toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
 @media(max-width:640px){.fld{flex-direction:column}.fld .cp{width:100%}h1{font-size:1.3rem}}
 @media(prefers-reduced-motion:reduce){*{transition:none!important}}
-</style></head><body>
+</style>
+<style id="titre-moderne">/* Titre en casse mixte + logo mis en valeur, aux couleurs du logo */
+header h1{font-family:system-ui,-apple-system,"Segoe UI",Roboto,sans-serif!important;font-style:italic!important;font-weight:900!important;text-transform:none!important;letter-spacing:.005em!important;line-height:1.08;font-size:1.75rem!important;background:none!important;-webkit-text-stroke:0!important;color:#fff!important;-webkit-text-fill-color:#fff!important;text-shadow:0 2px 0 #14151a,0 4px 12px rgba(0,0,0,.45)!important}
+header h1 .tm{background:linear-gradient(180deg,#fbc471,#f56f0b 72%)!important;-webkit-background-clip:text!important;background-clip:text!important;color:#f56f0b!important;-webkit-text-fill-color:transparent!important;text-shadow:none!important;filter:drop-shadow(0 2px 0 #14151a)}
+header h1 small,header h1 em{font-style:normal!important;text-shadow:none!important;-webkit-text-fill-color:currentColor!important}
+header img{border-radius:22%!important;box-shadow:0 0 0 2px rgba(255,255,255,.3),0 0 22px rgba(245,111,11,.45),0 6px 16px rgba(0,0,0,.4)!important;transition:transform .3s}
+header img:hover{transform:rotate(-5deg) scale(1.05)}
+@media(max-width:520px){header h1{font-size:calc(1.75rem * .8)!important}}
+</style>
+</head><body>
 
 <header>
  <img src="icons/logo.png" alt="" width="58" height="58">
- <div class="tt"><h1>Prompts pédagogiques</h1><p>Structurez votre prompt pour Claude AI · <span class="vbadge">v<span class="ver"></span></span></p></div>
+ <div class="tt"><h1>Prompts <span class="tm">pédagogiques</span></h1><p>Structurez votre prompt pour Claude AI · <span class="vbadge">v<span class="ver"></span></span></p></div>
  <button class="hbtn" id="inst" hidden>📲 Installer</button>
  <a class="hbtn" href="../Mes_Apps_EPS/">← Mes Apps EPS</a>
 </header>
